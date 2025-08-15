@@ -1,4 +1,5 @@
 #Basic Inventory Management Tool
+# This is the command line interface for inventory management tool
 inventory = {}
 # This function adds a new item to the inventory
 def add_item(item_name, price, stock):
@@ -46,4 +47,5 @@ add_item("Apple", 0.5, 50)
 add_item("Banana", 0.2, 60)
 sales = {"Apple": 30, "Banana": 20, "Orange": 10}  # Orange should print an error
 print(sales_report(sales))  # Should output: 19.0
+
 print(inventory)
