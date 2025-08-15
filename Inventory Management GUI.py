@@ -3,7 +3,7 @@ from tkinter import ttk, messagebox, filedialog
 import sqlite3
 import csv
 from datetime import datetime
-
+# Createthe database to store the inventories and sales
 def init_db():
     connection = sqlite3.connect("inventory.db")
     c = connection.cursor()
@@ -24,7 +24,7 @@ def init_db():
 
     connection.commit()
     connection.close()
-
+# Get inventories from the database
 def fetch_inventory():
     connection = sqlite3.connect("inventory.db")
     c = connection.cursor()
@@ -32,7 +32,7 @@ def fetch_inventory():
     items = c.fetchall()
     connection.close()
     return items
-
+# Add the new stock in inventory
 def add_item():
     item_name = item_entry.get()
 
@@ -56,7 +56,7 @@ def add_item():
 
     clear_entry()
     refresh_inventory()
-
+# Updates the Stocks
 def update_item():
     selected_item = tree.selection()
     if not selected_item:
@@ -79,7 +79,7 @@ def update_item():
 
     clear_entry()
     refresh_inventory()
-
+# Deletes the selected inventory
 def delete_item():
     selected_item = tree.selection()
     if not selected_item:
@@ -96,7 +96,7 @@ def delete_item():
     connection.close()
 
     refresh_inventory()
-
+# Sells the selected stock
 def sell_item():
     selected_item = tree.selection()
     if not selected_item:
@@ -133,7 +133,7 @@ def sell_item():
     
     refresh_inventory()
     sell_quantity.set(0)
-
+# Exports the list of items to .csv file
 def export_inventory():
     filepath = filedialog.asksaveasfilename(defaultextension=".csv", 
                                            filetypes=[("CSV Files", "*.csv")])
@@ -146,18 +146,20 @@ def export_inventory():
         writer.writerow(["ID", "Item_Name", "Price", "Stock"])
         writer.writerows(items)
     messagebox.showinfo("Success", "Inventory exported successfully!")
-
+# Refreshes the inventory after doing the databsee operations
 def refresh_inventory():
     update_tree(fetch_inventory())
+# Updates the CSV
 def update_tree(items):
     tree.delete(*tree.get_children())
     for item in items:
         tree.insert("", tk.END, values=item)
+# Clears the entries once a inventory was added
 def clear_entry():
     item_entry.delete(0, tk.END)
     price_entry.delete(0, tk.END)
     stock_entry.delete(0, tk.END)
-
+#UI
 root = tk.Tk()
 root.title("Inventory Management System")
 root.geometry("750x600")
@@ -207,3 +209,4 @@ init_db()
 refresh_inventory()
 
 root.mainloop()
+
